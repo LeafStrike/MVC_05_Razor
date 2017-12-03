@@ -1,0 +1,21 @@
+﻿@model MVC_project.Models.Student[]
+
+<div style="margin-top: 20px">
+    <div>
+        <div>Student Id</div>
+        <div>Student Name</div>
+        <div>Student Surname</div>
+        <div>Student GroupId</div>
+        <div>Student Status</div>
+    </div>
+
+    <hr />
+
+    @foreach (var item in MVC_project.Controllers.StudentController.Students)
+    {
+        if (item.Id > 0)
+        {
+            <div>Id: @item.Id, Name: @item.Name, Surname: @item.Surname, GroupId: @item.GroupId, Status: @item.Status</div>
+        }
+    }
+</div>
