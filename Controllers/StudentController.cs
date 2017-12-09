@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using MVC_project.Models;
+using MVC_Students.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace MVC_project.Controllers
+namespace MVC_Students.Controllers
 {
     public class StudentController : Controller
     {
@@ -16,179 +16,37 @@ namespace MVC_project.Controllers
             new Student {Id = 5, Name = "Bilbo", Surname = "Baggins", GroupId = 1020, Status = "магистр"}
         };
 
-        public IActionResult Card()
+        public IActionResult List()
         {
             return View(Students);
+        }
+        public IActionResult Card(int num)
+        {
+            return View(Students.Find(x => x.Id.Equals(num)));
         }
         
 
-        public IActionResult Edit()
+        public IActionResult Edit(int num)
         {
-            return View(Students);
+            return View(Students.Find(x => x.Id.Equals(num)));
         }
 
         [HttpPost]
-        public IActionResult Edit(Student student, int num)
+        public IActionResult Edit(Student student)
         {
+            int num = student.Id;
             if (!ModelState.IsValid)
             {
-                return Edit();
+                return Edit(num);
             }
 
-            Students[num].Id = student.Id;
-            Students[num].Name = student.Name;
-            Students[num].Surname = student.Surname;
-            Students[num].GroupId = student.GroupId;
-            Students[num].Status = student.Status;
+            Students.Find(x => x.Id.Equals(num)).Id = student.Id;
+            Students.Find(x => x.Id.Equals(num)).Name = student.Name;
+            Students.Find(x => x.Id.Equals(num)).Surname = student.Surname;
+            Students.Find(x => x.Id.Equals(num)).GroupId = student.GroupId;
+            Students.Find(x => x.Id.Equals(num)).Status = student.Status;
 
-            return RedirectToAction("Card", "Student");
-        }
-
-        // CREATE
-        [HttpPost]
-        public ViewResult CreateStudent(int id, string name, string surname)
-        {
-            var student = new Student { Id = id, Name = name, Surname = surname };
-            Students.Add(student);
-            return View(student);
-        }
-
-        // READ
-        [HttpGet]
-        public Student GetStudentById(int id)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    return st;
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpGet]
-        public string GetStudentNameById(int id)
-        {
-            foreach(Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    return st.Name;
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpGet]
-        public string GetStudentSurnameById(int id)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    return st.Surname;
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpGet]
-        public int GetStudentGroupById(int id)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    return st.GroupId;
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpGet]
-        public string GetStudentStatusById(int id)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    return st.Status;
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        // UPDATE
-        [HttpPut]
-        public ViewResult SetStudentName(int id, string name)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    st.Name = name;
-                    return View(st);
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpPut]
-        public ViewResult SetStudentSurname(int id, string surname)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    st.Surname = surname;
-                    return View(st);
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpPut]
-        public ViewResult SetStudentGroup(int id, int groupId)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    st.GroupId = groupId;
-                    return View(st);
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        [HttpPut]
-        public ViewResult SetStudentStatus(int id, string status)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    st.Status = status;
-                    return View(st);
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
-        }
-
-        // DELETE
-        [HttpDelete]
-        public ViewResult DeleteStudentById(int id)
-        {
-            foreach (Student st in Students)
-            {
-                if (st.Id == id)
-                {
-                    Students.Remove(st);
-                    return View(st);
-                }
-            }
-            throw new Exception("No student found for id " + id.ToString() + ".");
+            return RedirectToAction("List", "Student", new { num = student.Id });
         }
     }
 }
