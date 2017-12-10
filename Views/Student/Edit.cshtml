@@ -1,13 +1,8 @@
 @model MVC_Students.Models.Student
 
 <div style="margin-top: 20px;">
-    @using (Html.BeginForm("Edit", "Student", FormMethod.Post))
+    @using (Html.BeginForm("Edit", "Student", Model, FormMethod.Post))
     {
-        <div>
-            <div>@Html.DisplayNameFor(m => m.Id)</div>
-            <div>@Html.EditorFor(m => m.Id)</div>
-            <div>@Html.ValidationMessageFor(m => m.Id)</div>
-        </div>
         <div>
             <div>@Html.DisplayNameFor(m => m.Name)</div>
             <div>@Html.EditorFor(m => m.Name)</div>
