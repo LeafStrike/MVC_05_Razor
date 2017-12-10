@@ -40,7 +40,6 @@ namespace MVC_Students.Controllers
                 return Edit(num);
             }
 
-            Students.Find(x => x.Id.Equals(num)).Id = student.Id;
             Students.Find(x => x.Id.Equals(num)).Name = student.Name;
             Students.Find(x => x.Id.Equals(num)).Surname = student.Surname;
             Students.Find(x => x.Id.Equals(num)).GroupId = student.GroupId;
